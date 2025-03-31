@@ -588,6 +588,9 @@ const Quiz = () => {
               </div>
             )}
           </Card>
+          <div className="text-center mt-4">
+            <p>Developer: Your Name</p>
+          </div>
         </div>
       </div>
     </div>
