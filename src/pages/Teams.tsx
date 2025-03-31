@@ -214,8 +214,8 @@ const Teams = () => {
           />
         </div>
       </div>
-      <div className="text-center mt-4">
-        <p>Developed by Gourav Patidar</p>
+      <div className="text-center text-gray-500 text-sm mt-4">
+        Developed by Gourav Patidar
       </div>
     </div>
   );
