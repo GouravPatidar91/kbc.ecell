@@ -134,8 +134,8 @@ const Auth = () => {
           </button>
         </p>
       </Card>
-      <div className="text-center mt-4">
-        <p>Developed by Gourav Patidar</p>
+      <div className="text-center mt-8 text-gray-500 text-sm">
+        Developed by Gourav Patidar
       </div>
     </div>
   );
