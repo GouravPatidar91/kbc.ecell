@@ -1,12 +1,12 @@
-
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Card } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
-import { useToast } from "@/components/ui/use-toast";
-import { supabase } from "@/integrations/supabase/client";
+import { Card } from 'components/ui/card';
+import { Input } from 'components/ui/input';
+import { Button } from 'components/ui/button';
+import { Label } from 'components/ui/label';
+import { useToast } from 'components/ui/use-toast';
+import { supabase } from 'integrations/supabase/client';
+
 
 const Auth = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -23,20 +23,6 @@ const Auth = () => {
 
     try {
       if (isSignUp) {
-        // First check if username is already taken
-        if (username.trim()) {
-          const { data: existingUser } = await supabase
-            .from('profiles')
-            .select('username')
-            .eq('username', username)
-            .maybeSingle();
-          
-          if (existingUser) {
-            throw new Error("Username is already taken. Please choose a different username.");
-          }
-        }
-
-        // If username is unique, proceed with signup
         const { error } = await supabase.auth.signUp({
           email,
           password,
@@ -47,14 +33,10 @@ const Auth = () => {
           },
         });
         if (error) throw error;
-        
-        // Show success message and redirect to index page immediately
         toast({
           title: "Success!",
-          description: "Your account has been created. You are now signed in.",
+          description: "Please check your email to confirm your account.",
         });
-        
-        navigate("/");
       } else {
         const { error } = await supabase.auth.signInWithPassword({
           email,
@@ -75,66 +57,69 @@ const Auth = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-white to-gray-50 flex items-center justify-center px-4">
-      <Card className="w-full max-w-md p-6 animate-slideIn">
-        <h2 className="text-2xl font-semibold mb-6 text-center">
-          {isSignUp ? "Create an Account" : "Welcome Back"}
-        </h2>
-        
-        <form onSubmit={handleSubmit} className="space-y-4">
-          {isSignUp && (
+    <div className="min-h-screen bg-gradient-to-b from-white to-gray-50 flex flex-col items-center justify-between px-4 py-8">
+      <div className="flex-1 flex items-center justify-center w-full">
+        <Card className="w-full max-w-md p-6 animate-slideIn">
+          <h2 className="text-2xl font-semibold mb-6 text-center">
+            {isSignUp ? "Create an Account" : "Welcome Back"}
+          </h2>
+          
+          <form onSubmit={handleSubmit} className="space-y-4">
+            {isSignUp && (
+              <div className="space-y-2">
+                <Label htmlFor="username">Username</Label>
+                <Input
+                  id="username"
+                  placeholder="Enter your username"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                  required
+                />
+              </div>
+            )}
+            
             <div className="space-y-2">
-              <Label htmlFor="username">Username</Label>
+              <Label htmlFor="email">Email</Label>
               <Input
-                id="username"
-                placeholder="Enter your username"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
+                id="email"
+                type="email"
+                placeholder="Enter your email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 required
               />
             </div>
-          )}
+            
+            <div className="space-y-2">
+              <Label htmlFor="password">Password</Label>
+              <Input
+                id="password"
+                type="password"
+                placeholder="Enter your password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+            </div>
+            
+            <Button type="submit" className="w-full" disabled={isLoading}>
+              {isLoading ? "Loading..." : isSignUp ? "Sign Up" : "Sign In"}
+            </Button>
+          </form>
           
-          <div className="space-y-2">
-            <Label htmlFor="email">Email</Label>
-            <Input
-              id="email"
-              type="email"
-              placeholder="Enter your email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
-          </div>
-          
-          <div className="space-y-2">
-            <Label htmlFor="password">Password</Label>
-            <Input
-              id="password"
-              type="password"
-              placeholder="Enter your password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
-          </div>
-          
-          <Button type="submit" className="w-full" disabled={isLoading}>
-            {isLoading ? "Loading..." : isSignUp ? "Sign Up" : "Sign In"}
-          </Button>
-        </form>
-        
-        <p className="mt-4 text-center text-sm text-gray-600">
-          {isSignUp ? "Already have an account? " : "Don't have an account? "}
-          <button
-            onClick={() => setIsSignUp(!isSignUp)}
-            className="text-primary hover:underline"
-          >
-            {isSignUp ? "Sign In" : "Sign Up"}
-          </button>
-        </p>
-      </Card>
-      <div className="text-center mt-8 text-gray-500 text-sm">
+          <p className="mt-4 text-center text-sm text-gray-600">
+            {isSignUp ? "Already have an account? " : "Don't have an account? "}
+            <button
+              onClick={() => setIsSignUp(!isSignUp)}
+              className="text-primary hover:underline"
+            >
+              {isSignUp ? "Sign In" : "Sign Up"}
+            </button>
+          </p>
+        </Card>
+      </div>
+      
+      <div className="text-center text-gray-500 text-sm mt-4">
         Developed by Gourav Patidar
       </div>
     </div>
