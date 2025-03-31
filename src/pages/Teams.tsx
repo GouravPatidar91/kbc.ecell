@@ -214,6 +214,9 @@ const Teams = () => {
           />
         </div>
       </div>
+      <div className="text-center mt-4">
+        <p>Developed by Gourav Patidar</p>
+      </div>
     </div>
   );
 };
