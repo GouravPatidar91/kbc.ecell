@@ -588,8 +588,8 @@ const Quiz = () => {
               </div>
             )}
           </Card>
-          <div className="text-center mt-4">
-            <p>Developer: Your Name</p>
+          <div className="text-center text-gray-500 text-sm mt-4">
+             Developed by Gourav Patidar
           </div>
         </div>
       </div>
