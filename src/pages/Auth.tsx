@@ -134,6 +134,9 @@ const Auth = () => {
           </button>
         </p>
       </Card>
+      <div className="text-center mt-4">
+        <p>Developed by Gourav Patidar</p>
+      </div>
     </div>
   );
 };
